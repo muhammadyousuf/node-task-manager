@@ -133,15 +133,29 @@ MongoClient.connect(
     //     console.log("result", result);
     //   })
     //   .catch(err => console.log(err));
+    // db.collection("tasks")
+    //   .updateMany(
+    //     { completed: true },
+    //     {
+    //       $set: {
+    //         completed: false
+    //       }
+    //     }
+    //   )
+    //   .then(result => {
+    //     console.log("result", result);
+    //   })
+    //   .catch(err => console.log(err));
+
+    // db.collection("users").deleteMany(
+    //   {age : 25}
+    // )
+    // .then(result => {
+    //   console.log("result", result);
+    // })
+    // .catch(err => console.log(err));
     db.collection("tasks")
-      .updateMany(
-        { completed: true },
-        {
-          $set: {
-            completed: false
-          }
-        }
-      )
+      .deleteOne({ description: "Node JS Basic Video" })
       .then(result => {
         console.log("result", result);
       })
