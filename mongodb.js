@@ -107,15 +107,44 @@ MongoClient.connect(
     //   console.log(task);
     // });
 
-    db.collection("tasks").findOne(
-      { _id: new ObjectID("5dda4549c846a911f85ad8fa") },
-      (err, task) => {
-        if (err) {
-          console.log("unable to read data");
-        }
+    // db.collection("tasks").findOne(
+    //   { _id: new ObjectID("5dda4549c846a911f85ad8fa") },
+    //   (err, task) => {
+    //     if (err) {
+    //       console.log("unable to read data");
+    //     }
 
-        console.log(task);
-      }
-    );
+    //     console.log(task);
+    //   }
+    // );
+    // db.collection("users")
+    //   .updateOne(
+    //     { _id: new ObjectID("5dda43d71c535a109039e3dc") },
+    //     {
+    //       $set: {
+    //         name: "ali"
+    //       },
+    //       $inc: {
+    //         age: 1
+    //       }
+    //     }
+    //   )
+    //   .then(result => {
+    //     console.log("result", result);
+    //   })
+    //   .catch(err => console.log(err));
+    db.collection("tasks")
+      .updateMany(
+        { completed: true },
+        {
+          $set: {
+            completed: false
+          }
+        }
+      )
+      .then(result => {
+        console.log("result", result);
+      })
+      .catch(err => console.log(err));
   }
 );
