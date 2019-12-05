@@ -14,19 +14,44 @@ const User = mongoose.model("User", {
     type: Number
   }
 });
-
-const me = new User({
-  name: "Muhammad Yousuf",
-  age: 24
+const Task = mongoose.model("Task", {
+  title: {
+    type: String,
+    required: true
+  },
+  orders: {
+    type: Number,
+    default: 1
+  },
+  completed: {
+    type: Boolean,
+    default: false
+  }
 });
-me.save()
-  .then(() => {
-    console.log("====================================");
-    console.log(me);
-    console.log("====================================");
+
+const myTask = new Task({
+  title: "First Todo"
+});
+
+myTask
+  .save()
+  .then(res => {
+    console.log(res);
   })
-  .catch(err => {
-    console.log("====================================");
-    console.log(err);
-    console.log("====================================");
-  });
+  .catch(err => console.log(err));
+
+// const me = new User({
+//   name: "Muhammad Yousuf",
+//   age: 24
+// });
+// me.save()
+//   .then(() => {
+//     console.log("====================================");
+//     console.log(me);
+//     console.log("====================================");
+//   })
+//   .catch(err => {
+//     console.log("====================================");
+//     console.log(err);
+//     console.log("====================================");
+//   });
