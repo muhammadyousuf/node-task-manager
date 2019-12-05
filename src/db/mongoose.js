@@ -7,43 +7,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/taske-manager-api", {
   useUnifiedTopology: true
 });
 
-const User = mongoose.model("User", {
-  name: {
-    type: String,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("Invalid Email Address");
-      }
-    }
-  },
-  age: {
-    type: Number,
-    default: 0,
-    validate(value) {
-      if (value < 0) {
-        throw new Error("Age must be positive");
-      }
-    }
-  },
-  password: {
-    type: String,
-    trim: true,
-    required: true,
-    minlength: 7,
-    validate(value) {
-      if (value.toLowerCase().includes("password")) {
-        throw new Error("Password does not conatin password");
-      }
-    }
-  }
-});
+
 const Task = mongoose.model("Task", {
   title: {
     type: String,
@@ -77,19 +41,19 @@ const Task = mongoose.model("Task", {
 //   })
 //   .catch(err => console.log(err));
 
-const me = new User({
-  name: "    Muhammad Yousuf    ",
-  email: "     MYOUSUF@gmail.com     ",
-  password: "pa125445D"
-});
-me.save()
-  .then(() => {
-    console.log("====================================");
-    console.log(me);
-    console.log("====================================");
-  })
-  .catch(err => {
-    console.log("====================================");
-    console.log(err);
-    console.log("====================================");
-  });
+// const me = new User({
+//   name: "    Muhammad Yousuf    ",
+//   email: "     MYOUSUF@gmail.com     ",
+//   password: "pa125445D"
+// });
+// me.save()
+//   .then(() => {
+//     console.log("====================================");
+//     console.log(me);
+//     console.log("====================================");
+//   })
+//   .catch(err => {
+//     console.log("====================================");
+//     console.log(err);
+//     console.log("====================================");
+//   });
