@@ -2,7 +2,7 @@ const express = require("express");
 require("./db/mongoose");
 const userRoutes = require("./routes/user");
 const taskRoutes = require("./routes/task");
-const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -15,11 +15,10 @@ app.listen(port, () => {
 });
 
 const myFunction = async () => {
-  const password = "yousufPass";
-  const passwordHash = await bcrypt.hash(password, 8);
-  const match = await bcrypt.compare("yousufPass", passwordHash)
-  console.log(password);
-  console.log(passwordHash);
-  console.log(match)
+  const token = jwt.sign({ _id: "1234" }, "secret", {expiresIn:'7 days'});
+  console.log("token", token);
+
+  const data = jwt.verify(token, "secret");
+  console.log('data', data)
 };
 myFunction();
