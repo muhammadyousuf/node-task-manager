@@ -6,6 +6,16 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// app.use((req, res, next) => {
+//   console.log(req.method, req.path);
+//   next();
+// });
+
+// app.use((req, res, next) => {
+//   res.status(503).send("Due to maintaince problem server is down");
+// });
+
 app.use(express.json());
 app.use(userRoutes);
 app.use(taskRoutes);
@@ -15,10 +25,10 @@ app.listen(port, () => {
 });
 
 const myFunction = async () => {
-  const token = jwt.sign({ _id: "1234" }, "secret", {expiresIn:'7 days'});
+  const token = jwt.sign({ _id: "1234" }, "secret", { expiresIn: "7 days" });
   console.log("token", token);
 
   const data = jwt.verify(token, "secret");
-  console.log('data', data)
+  console.log("data", data);
 };
 myFunction();
