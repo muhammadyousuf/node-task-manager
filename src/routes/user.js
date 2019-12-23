@@ -28,6 +28,27 @@ router.post("/users/login", async (req, res) => {
     });
   }
 });
+router.post("/users/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(token => {
+      return token.token != req.token;
+    });
+    await req.user.save();
+    res.send();
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+router.post("/users/logoutAll", auth, async (req, res) => {
+  try {
+    req.user.tokens = []
+    await req.user.save();
+    res.send();
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 router.get("/users", async (req, res) => {
   try {
@@ -39,8 +60,7 @@ router.get("/users", async (req, res) => {
 });
 
 router.get("/users/me", auth, async (req, res) => {
-  
- res.send(req.user);
+  res.send(req.user);
 });
 
 router.get("/users/:id", async (req, res) => {
