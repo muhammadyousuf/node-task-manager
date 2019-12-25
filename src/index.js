@@ -24,11 +24,3 @@ app.listen(port, () => {
   console.log("Server is up an running on port " + port);
 });
 
-const myFunction = async () => {
-  const token = jwt.sign({ _id: "1234" }, "secret", { expiresIn: "7 days" });
-  console.log("token", token);
-
-  const data = jwt.verify(token, "secret");
-  console.log("data", data);
-};
-myFunction();
