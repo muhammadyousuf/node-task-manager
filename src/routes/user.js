@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
 const router = new express.Router();
+const multer = require("multer");
 
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
@@ -63,7 +64,7 @@ router.get("/users/me", auth, async (req, res) => {
   res.send(req.user);
 });
 
-router.patch("/users/me", auth,  async (req, res) => {
+router.patch("/users/me", auth, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowUpdates = ["name", "email", "age", "password"];
   const isValidOperator = updates.every(update =>
@@ -93,6 +94,13 @@ router.delete("/users/me", auth, async (req, res) => {
   } catch (err) {
     res.status(500).send(err);
   }
+});
+
+const upload = multer({
+  dest: "avatar"
+});
+router.post("/user/me/avatar", upload.single("avatar"), (req, res) => {
+  res.send();
 });
 
 module.exports = router;
