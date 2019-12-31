@@ -15,8 +15,8 @@ const upload = multer({
     fileSize: 5000000
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(pdf|doc|docx|png|jpg|jpeg)$/)) {
-      return cb(new Error("Please upload a valid file"));
+    if (!file.originalname.endsWith(".pdf")) {
+      return cb(new Error("Please upload PDF file"));
     }
     cb(undefined, true);
   }
