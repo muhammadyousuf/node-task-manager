@@ -97,7 +97,6 @@ router.delete("/users/me", auth, async (req, res) => {
 });
 
 const upload = multer({
-  dest: "avatar",
   limits: {
     fieldSize: 1000000
   },
@@ -110,13 +109,27 @@ const upload = multer({
 });
 router.post(
   "/user/me/avatar",
+  auth,
   upload.single("avatar"),
-  (req, res) => {
+  async (req, res) => {
+    if (!req.file) {
+      return res.status(400).send({
+        error: "Please select File"
+      });
+    }
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
     res.send();
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });
   }
 );
+
+router.delete("/user/me/avatar", auth, async (req, res) => {
+  req.user.avatar = undefined;
+  await req.user.save();
+  res.send();
+});
 
 module.exports = router;
