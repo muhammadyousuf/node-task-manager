@@ -78,7 +78,7 @@ userSchema.virtual("tasks", {
 
 userSchema.methods.GenerateAuthToken = async function() {
   const user = this;
-  const token = await jwt.sign({ _id: user._id }, "secret");
+  const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
