@@ -1,7 +1,8 @@
 const {
   calculateTip,
   fahrenheitToCelsius,
-  celsiusToFahrenheit
+  celsiusToFahrenheit,
+  add
 } = require("../Playground/math");
 test("should calulate total with tip", () => {
   const total = calculateTip(10, 0.3);
@@ -21,4 +22,23 @@ test("Should convert 32 F to 0 C", () => {
 test("Should convert 0 C to 32 F", () => {
   const temp = celsiusToFahrenheit(0);
   expect(temp).toBe(32);
+});
+
+test("Asyn test demo", done => {
+  setTimeout(() => {
+    expect(2).toBe(2);
+    done();
+  }, 2000);
+});
+
+test("should add two numbers", done => {
+  add(3, 5).then(sum => {
+    expect(sum).toBe(8);
+    done();
+  });
+});
+
+test("should add two numbers asyn/await", async () => {
+  const sum = await add(11, 22);
+  expect(sum).toBe(33);
 });
