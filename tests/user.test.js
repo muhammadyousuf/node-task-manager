@@ -9,7 +9,7 @@ const userOneId = new mongoose.Types.ObjectId();
 const userOne = {
   _id: userOneId,
   name: "Muhammad Rafae",
-  email: "rafaekhatri11@gmail.com",
+  email: "rafaekhatri@gmail.com",
   password: "HeyWhat1!",
   tokens: [
     {
@@ -24,7 +24,7 @@ beforeEach(async () => {
 });
 
 test("should signup new user", async () => {
-  await request(app)
+  const response = await request(app)
     .post("/users")
     .send({
       name: "Muhammad Yousuf",
@@ -32,16 +32,29 @@ test("should signup new user", async () => {
       password: "MyPass777!"
     })
     .expect(201);
+  const user = await User.findById(response.body.user._id);
+  expect(user).not.toBeNull();
+
+  expect(response.body).toMatchObject({
+    user: {
+      name: "Muhammad Yousuf",
+      email: "muhammadyousuf328@gmail.com"
+    },
+    token: user.tokens[0].token
+  });
+  expect(user.password).not.toBe("MyPass777!");
 });
 
 test("should login existing user", async () => {
-  await request(app)
+  const response = await request(app)
     .post("/users/login")
     .send({
       email: userOne.email,
       password: userOne.password
     })
     .expect(200);
+  const user = await User.findById(userOneId);
+  expect(response.body.token).toBe(user.tokens[1].token);
 });
 
 test("should not login nonexisting user", async () => {
@@ -75,6 +88,8 @@ test("should delete user  for profile", async () => {
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .send()
     .expect(200);
+  const user = await User.findById(userOneId);
+  expect(user).toBeNull();
 });
 
 test("should not delete profile unathentication user", async () => {
